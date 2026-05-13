@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MindCare - Chatbot Konsultasi Kesehatan Mental</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+    }
+    
+    .dashboard-container {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 40px 20px;
+    }
+    
+    .header {
+      text-align: center;
+      margin-bottom: 60px;
+    }
+    
+    .header h1 {
+      color: white;
+      font-size: 48px;
+      margin-bottom: 20px;
+    }
+    
+    .header p {
+      color: rgba(255, 255, 255, 0.95);
+      font-size: 20px;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    
+    .quick-stats {
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      margin-bottom: 60px;
+      flex-wrap: wrap;
+    }
+    
+    .stat-box {
+      text-align: center;
+      color: white;
+    }
+    
+    .stat-number {
+      font-size: 48px;
+      font-weight: 700;
+    }
+    
+    .stat-label {
+      font-size: 16px;
+      opacity: 0.9;
+    }
+    
+    .chat-widget {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      z-index: 1000;
+    }
+    
+    .chat-btn {
+      width: 70px;
+      height: 70px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 30px;
+      cursor: pointer;
+      box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+      transition: all 0.3s;
+    }
+    
+    .chat-btn:hover {
+      transform: scale(1.1);
+      box-shadow: 0 12px 30px rgba(102, 126, 234, 0.6);
+    }
+    
+    .chat-counter {
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 28px;
+      height: 28px;
+      background: #ff6b6b;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 700;
+      color: white;
+      border: 3px solid white;
+    }
+    
+    .dashboard-content {
+      background: white;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+      padding: 40px;
+    }
+    
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 30px;
+      margin-top: 40px;
+    }
+    
+    .feature-card {
+      text-align: center;
+      padding: 40px 30px;
+      background: #f8f9fa;
+      border-radius: 15px;
+      transition: all 0.3s;
+      border: 2px solid transparent;
+    }
+    
+    .feature-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+      border-color: #667eea;
+    }
+    
+    .feature-card i {
+      font-size: 56px;
+      color: #667eea;
+      margin-bottom: 20px;
+    }
+    
+    .feature-card h3 {
+      color: #333;
+      margin-bottom: 15px;
+      font-size: 22px;
+    }
+    
+    .feature-card p {
+      color: #666;
+      line-height: 1.7;
+    }
+    
+    .chat-box-container {
+      display: none;
+    }
+    
+    .chat-box-container.active {
+      display: block;
+    }
+    
+    .toggle-view {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin-bottom: 40px;
+    }
+    
+    .toggle-btn {
+      padding: 12px 30px;
+      background: rgba(255, 255, 255, 0.2);
+      color: white;
+      border: none;
+      border-radius: 50px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    
+    .toggle-btn:hover {
+      background: rgba(255, 255, 255, 0.3);
+    }
+    
+    .toggle-btn.active {
+      background: white;
+      color: #667eea;
+    }
+    
+    @media (max-width: 768px) {
+      .header h1 {
+        font-size: 32px;
+      }
+      
+      .quick-stats {
+        gap: 20px;
+      }
+      
+      .stat-number {
+        font-size: 36px;
+      }
+      
+      .feature-card {
+        padding: 25px 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="dashboard-container">
+    <div class="header">
+      <h1>🧠 MindCare</h1>
+      <p>Chatbot Konsultasi Kesehatan Mental yang Ramah & Empatik</p>
+    </div>
+    
+    <div class="quick-stats">
+      <div class="stat-box">
+        <div class="stat-number">10K+</div>
+        <div class="stat-label">Pengguna Aktif</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-number">50K+</div>
+        <div class="stat-label">Konsultasi</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-number">4.9</div>
+        <div class="stat-label">Rating Kepuasan</div>
+      </div>
+    </div>
+    
+    <div class="toggle-view">
+      <button class="toggle-btn active" onclick="showDashboard()">Dashboard</button>
+      <button class="toggle-btn" onclick="showChat()">Start Chat</button>
+    </div>
+    
+    <div class="dashboard-content">
+      <div id="dashboard-view">
+        <div class="features-grid">
+          <div class="feature-card">
+            <i class="fas fa-clock"></i>
+            <h3>24/7 Tersedia</h3>
+            <p>Konsultasi kapan saja, kapan libur akhir pekan atau di tengah malam. Chatbot siap mendengarkan kapanpun Anda butuhkan.</p>
+          </div>
+          
+          <div class="feature-card">
+            <i class="fas fa-lock"></i>
+            <h3>Privacy Terjamin</h3>
+            <p>Kerahasiaan Anda adalah prioritas. Semua percakapan dienkripsi dan tidak dibagikan ke pihak ketiga.</p>
+          </div>
+          
+          <div class="feature-card">
+            <i class="fas fa-comments"></i>
+            <h3>Responsif & Empatik</h3>
+            <p>Chatbot menggunakan AI canggih untuk memahami perasaan dan memberikan respons yang sesuai dengan emosi Anda.</p>
+          </div>
+          
+          <div class="feature-card">
+            <i class="fas fa-file-alt"></i>
+            <h3>Catatan Terpimpin</h3>
+            <p>Riwayat konsultasi tersimpan untuk membantu Anda melacak perkembangan kesejahteraan mental Anda.</p>
+          </div>
+          
+          <div class="feature-card">
+            <i class="fas fa-user-md"></i>
+            <h3>Didukung AI Medis</h3>
+            <p>Menggunakan teknologi Groq AI yang telah dilatih untuk memberikan saran berkualitas dalam bidang psikologi.</p>
+          </div>
+          
+          <div class="feature-card">
+            <i class="fas fa-mobile-alt"></i>
+            <h3>Mobile Friendly</h3>
+            <p>Dapat diakses dengan sempurna di semua perangkat - smartphone, tablet, maupun desktop.</p>
+          </div>
+        </div>
+      </div>
+      
+      <div id="chat-view" class="chat-box-container">
+        <div class="chat-container">
+          <header>
+            <h1>🧠 MindCare Chatbot</h1>
+            <p>Konsultasi Kesehatan Mental & Psikologi</p>
+          </header>
+          
+          <div class="chat-box" id="chat-box"></div>
+          
+          <form class="chat-form" id="chat-form">
+            <input type="text" id="user-input" placeholder="Tulis pesanmu di sini..." required>
+            <button type="submit">Send</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="chat-widget">
+    <div class="chat-btn" onclick="startChat()">
+      <i class="fas fa-comments"></i>
+      <div class="chat-counter">+</div>
+    </div>
+  </div>
+  
+  <script>
+    function showDashboard() {
+      document.getElementById('dashboard-view').style.display = 'block';
+      document.getElementById('chat-view').style.display = 'none';
+      document.querySelectorAll('.toggle-btn').forEach(btn => btn.classList.remove('active'));
+      document.querySelectorAll('.toggle-btn')[0].classList.add('active');
+    }
+    
+    function showChat() {
+      document.getElementById('dashboard-view').style.display = 'none';
+      document.getElementById('chat-view').style.display = 'block';
+      document.querySelectorAll('.toggle-btn').forEach(btn => btn.classList.remove('active'));
+      document.querySelectorAll('.toggle-btn')[1].classList.add('active');
+    }
+    
+    function startChat() {
+      showChat();
+      
+      // Show welcome message if not already shown
+      if (document.getElementById('chat-box').children.length === 0) {
+        setTimeout(() => {
+          addMessage('Halo! Saya chatbot pendamping kesehatan mental. Bagaimana kabarmu hari ini?', 'bot');
+        }, 300);
+      }
+    }
+    
+    function addMessage(text, sender = 'user') {
+      const chatBox = document.getElementById('chat-box');
+      const msgDiv = document.createElement('div');
+      msgDiv.className = `message ${sender}`;
+      
+      const content = document.createElement('div');
+      content.className = 'message-content';
+      content.textContent = text;
+      
+      msgDiv.appendChild(content);
+      chatBox.appendChild(msgDiv);
+      chatBox.scrollTop = chatBox.scrollHeight;
+    }
+    
+    // Chat functionality
+    document.addEventListener('DOMContentLoaded', () => {
+      const chatBox = document.getElementById('chat-box');
+      const chatForm = document.getElementById('chat-form');
+      const userInput = document.getElementById('user-input');
+      const sendingIndicator = document.createElement('div');
+      
+      // Tambahkan indicator loading
+      sendingIndicator.className = 'message bot sending-indicator';
+      sendingIndicator.innerHTML = `<div class="typing-dots">
+        <span></span><span></span><span></span>
+      </div>`;
+      
+      chatForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const message = userInput.value.trim();
+        if (!message) return;
+        
+        addMessage(message, 'user');
+        userInput.value = '';
+        userInput.disabled = true;
+        
+        chatBox.appendChild(sendingIndicator);
+        
+        try {
+          const response = await fetch('/api/chat', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ message })
+          });
+          
+          const data = await response.json();
+          
+          sendingIndicator.remove();
+          
+          if (response.ok) {
+            addMessage(data.reply, 'bot');
+          } else {
+            addMessage(`⚠️ Error: ${data.error || 'Gagal memproses'}`, 'bot');
+          }
+        } catch (err) {
+          console.error('Network error:', err);
+          sendingIndicator.remove();
+          addMessage('⚠️ Tidak terhubung ke server. Pastikan server sedang berjalan.', 'bot');
+        } finally {
+          userInput.disabled = false;
+          userInput.focus();
+        }
+      });
+      
+      // Welcome message
+      setTimeout(() => {
+        if (document.getElementById('chat-view').style.display === 'block') {
+          addMessage('Halo! Saya chatbot pendamping kesehatan mental. Bagaimana kabarmu hari ini?', 'bot');
+        }
+      }, 500);
+    });
+  </script>
+</body>
+</html>

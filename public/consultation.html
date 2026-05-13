@@ -1,0 +1,945 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Konsultasi Kesehatan Mental - Chatbot AI</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        /* Header */
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 20px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #667eea;
+        }
+
+        .logo i {
+            font-size: 28px;
+            color: #667eea;
+        }
+
+        .logo h1 {
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #333;
+            margin-left: 20px;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: #667eea;
+        }
+
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            padding: 80px 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .hero h2 {
+            font-size: 3.5em;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .hero p {
+            font-size: 1.5em;
+            margin-bottom: 40px;
+            opacity: 0.95;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 15px 40px;
+            background: #fff;
+            color: #667eea;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1.2em;
+            transition: all 0.3s;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 25px rgba(0, 0, 0, 0.3);
+            color: #764ba2;
+        }
+
+        .cta-button i {
+            margin-right: 10px;
+        }
+
+        /* Features Section */
+        .features {
+            padding: 80px 5%;
+            background: white;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 60px;
+            color: #333;
+            font-size: 2.5em;
+        }
+
+        .section-title span {
+            color: #667eea;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .feature-card {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            transition: all 0.3s;
+            border: 1px solid #e0e0e0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+        }
+
+        .feature-icon {
+            font-size: 3.5em;
+            margin-bottom: 20px;
+            color: #667eea;
+        }
+
+        .feature-card h3 {
+            margin-bottom: 15px;
+            color: #333;
+            font-size: 1.8em;
+        }
+
+        .feature-card p {
+            color: #666;
+            line-height: 1.8;
+        }
+
+        /* How It Works Section */
+        .how-it-works {
+            padding: 80px 5%;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        }
+
+        .steps-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1000px;
+            margin: 40px auto 0;
+            position: relative;
+        }
+
+        .steps-container::before {
+            content: '';
+            position: absolute;
+            top: 60px;
+            left: 10%;
+            right: 10%;
+            height: 2px;
+            background: #ddd;
+            z-index: 0;
+        }
+
+        .step {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            flex: 1;
+        }
+
+        .step-number {
+            width: 80px;
+            height: 80px;
+            background: #667eea;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 2em;
+            font-weight: 700;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .step h3 {
+            margin-bottom: 10px;
+            font-size: 1.5em;
+            color: #333;
+        }
+
+        .step p {
+            color: #666;
+        }
+
+        /* Stats Section */
+        .stats {
+            padding: 60px 5%;
+            background: #fff;
+            text-align: center;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .stat-item h3 {
+            font-size: 2.5em;
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+
+        .stat-item p {
+            color: #666;
+            font-size: 1.1em;
+        }
+
+        /* Testimonials Section */
+        .testimonials {
+            padding: 80px 5%;
+            background: #667eea;
+            color: white;
+        }
+
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .testimonial-card {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 30px;
+            border-radius: 20px;
+            position: relative;
+        }
+
+        .testimonial-card::before {
+            content: '"';
+            position: absolute;
+            top: 10px;
+            left: 20px;
+            font-size: 5em;
+            color: rgba(255, 255, 255, 0.1);
+            font-family: serif;
+            line-height: 1;
+        }
+
+        .testimonial-text {
+            font-style: italic;
+            margin-bottom: 20px;
+            line-height: 1.8;
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .author-avatar {
+            width: 50px;
+            height: 50px;
+            background: #764ba2;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2em;
+            font-weight: 700;
+        }
+
+        .author-info h4 {
+            font-size: 1.2em;
+        }
+
+        .author-info p {
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        /* CTA Section */
+        .cta-section {
+            padding: 80px 5%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            text-align: center;
+            color: white;
+        }
+
+        .cta-section h2 {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+        }
+
+        .cta-section p {
+            font-size: 1.2em;
+            margin-bottom: 30px;
+            opacity: 0.95;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-options {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .cta-secondary {
+            display: inline-block;
+            padding: 15px 30px;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 700;
+            transition: all 0.3s;
+        }
+
+        .cta-secondary:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        /* Footer */
+        footer {
+            background: #333;
+            color: white;
+            padding: 60px 5% 30px;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            max-width: 1200px;
+            margin: 0 auto 40px;
+        }
+
+        .footer-column h3 {
+            font-size: 1.5em;
+            margin-bottom: 20px;
+            color: #667eea;
+        }
+
+        .footer-column p {
+            color: #aaa;
+            margin-bottom: 10px;
+            line-height: 1.8;
+        }
+
+        .footer-column ul {
+            list-style: none;
+        }
+
+        .footer-column ul li {
+            margin-bottom: 10px;
+        }
+
+        .footer-column ul li a {
+            color: #aaa;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-column ul li a:hover {
+            color: #667eea;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+        }
+
+        .social-link {
+            width: 40px;
+            height: 40px;
+            background: #555;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .social-link:hover {
+            background: #667eea;
+            transform: translateY(-3px);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid #555;
+            color: #aaa;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            max-width: 500px;
+            width: 90%;
+            position: relative;
+            animation: slideUp 0.3s;
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: none;
+            border: none;
+            font-size: 2em;
+            cursor: pointer;
+            color: #666;
+        }
+
+        .close-btn:hover {
+            color: #667eea;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 1em;
+            transition: border-color 0.3s;
+            font-family: inherit;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 15px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1em;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .submit-btn:hover {
+            background: #764ba2;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h2 {
+                font-size: 2.5em;
+            }
+
+            .hero p {
+                font-size: 1.2em;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .steps-container::before {
+                display: none;
+            }
+
+            .step {
+                margin-bottom: 60px;
+            }
+
+            .step:last-child {
+                margin-bottom: 0;
+            }
+
+            .cta-options {
+                flex-direction: column;
+            }
+
+            .modal-content {
+                width: 95%;
+                padding: 30px 20px;
+            }
+
+            nav {
+                display: none;
+            }
+        }
+
+        /* Chat Widget */
+        .chat-widget {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 1000;
+        }
+
+        .chat-btn {
+            width: 60px;
+            height: 60px;
+            background: #667eea;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 28px;
+            cursor: pointer;
+            box-shadow: 0 4px 20px rgba(102, 126, 234, 0.4);
+            transition: all 0.3s;
+        }
+
+        .chat-btn:hover {
+            background: #764ba2;
+            transform: scale(1.1);
+            box-shadow: 0 6px 25px rgba(102, 126, 234, 0.6);
+        }
+
+        .chat-counter {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 24px;
+            height: 24px;
+            background: #ff6b6b;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 700;
+            color: white;
+            border: 2px solid white;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="logo">
+            <i class="fas fa-brain"></i>
+            <h1>MindCare Chatbot</h1>
+        </div>
+        <nav>
+            <a href="#home">Home</a>
+            <a href="#features">Fitur</a>
+            <a href="#how-it-works">Cara Kerja</a>
+            <a href="#testimonials">Ulasan</a>
+            <a href="#" onclick="openModal()">Konsultasi</a>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <h2>Temukan Kedamaian Diri</h2>
+        <p>Konsultasi kesehatan mental dengan chatbot AI yang siap mendengarkan dan memberikan dukungan emotional kapan saja, di mana saja. Dukungan yang ramah, empatik, dan profesional.</p>
+        <a href="#features" class="cta-button">
+            <i class="fas fa-robot"></i> Mulai Konsultasi Sekarang
+        </a>
+        <div style="margin-top: 30px;">
+            <span>Trusted by</span>
+            <span style="margin: 0 10px;">•</span>
+            <a href="#testimonials" style="color: rgba(255,255,255,0.9); text-decoration: none; font-weight: 500;">10,000+ Pengguna</a>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="features">
+        <h2 class="section-title">Mengapa Memilih <span>MindCare</span>?</h2>
+        <div class="features-grid">
+            <div class="feature-card">
+                <i class="fas fa-clock feature-icon"></i>
+                <h3>24/7 Tersedia</h3>
+                <p>Konsultasi kapan saja, kapan libur akhir pekan atau di tengah malam. Chatbot siap mendengarkan kapanpun Anda butuhkan.</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-lock feature-icon"></i>
+                <h3>Privacy Terjamin</h3>
+                <p>Kerahasiaan Anda adalah prioritas. Semua percakapan dienkripsi dan tidak dibagikan ke pihak ketiga.</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-comments feature-icon"></i>
+                <h3>Responsif & Empatik</h3>
+                <p>Chatbot menggunakan AI canggih untuk memahami perasaan dan memberikan respons yang sesuai dengan emosi Anda.</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-file-alt feature-icon"></i>
+                <h3>Catatan Terpimpin</h3>
+                <p>Riwayat konsultasi tersimpan untuk membantu Anda melacak perkembangan kesejahteraan mental Anda.</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-user-md feature-icon"></i>
+                <h3>Didukung AI Medis</h3>
+                <p>Menggunakan teknologi Groq AI yang telah dilatih untuk memberikan saran berkualitas dalam bidang psikologi.</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-mobile-alt feature-icon"></i>
+                <h3>Mobile Friendly</h3>
+                <p>Dapat diakses dengan sempurna di semua perangkat - smartphone, tablet, maupun desktop.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section id="how-it-works" class="how-it-works">
+        <h2 class="section-title">Cara Kerja <span>Sederhana</span></h2>
+        <div class="steps-container">
+            <div class="step">
+                <div class="step-number">1</div>
+                <h3>Buka Chat</h3>
+                <p>Klik tombol konsultasi atau kunjungi halaman chat.</p>
+            </div>
+            <div class="step">
+                <div class="step-number">2</div>
+                <h3>Berbagi Perasaan</h3>
+                <p>Tulis apa yang sedang Anda rasakan atau tanyakan.</p>
+            </div>
+            <div class="step">
+                <div class="step-number">3</div>
+                <h3>Dapat Dukungan</h3>
+                <p>Terima respons empatik dan saran dari chatbot.</p>
+            </div>
+            <div class="step">
+                <div class="step-number">4</div>
+                <h3>Refleksi</h3>
+                <p>Pelajari lebih lanjut dan terapkan kehidupan sehat.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats">
+        <div class="stats-grid">
+            <div class="stat-item">
+                <h3>10K+</h3>
+                <p>Pengguna Aktif</p>
+            </div>
+            <div class="stat-item">
+                <h3>50K+</h3>
+                <p>Konsultasi</p>
+            </div>
+            <div class="stat-item">
+                <h3>4.9</h3>
+                <p>Rating Kepuasan</p>
+            </div>
+            <div class="stat-item">
+                <h3>99%</h3>
+                <p>Privasi Terjaga</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section id="testimonials" class="testimonials">
+        <h2 class="section-title" style="color: white;">Apa Kata <span>Pengguna</span></h2>
+        <div class="testimonials-grid">
+            <div class="testimonial-card">
+                <p class="testimonial-text">"Chatbot MindCare sangat membantu saat saya mengalami stres berat. Responsnya sangat empatik dan saya merasa didengar. Terima kasih!"</p>
+                <div class="testimonial-author">
+                    <div class="author-avatar">AN</div>
+                    <div class="author-info">
+                        <h4>Andi Nurfian</h4>
+                        <p>Designer & Creative</p>
+                    </div>
+                </div>
+            </div>
+            <div class="testimonial-card">
+                <p class="testimonial-text">"Sangat terbantu untuk ekspresikan perasaan yang sulit diungkapkan ke orang lain. Chatbot ini seperti teman curhat yang selalu ada."</p>
+                <div class="testimonial-author">
+                    <div class="author-avatar">SR</div>
+                    <div class="author-info">
+                        <h4>Siti Rahayu</h4>
+                        <p>Guru SMK</p>
+                    </div>
+                </div>
+            </div>
+            <div class="testimonial-card">
+                <p class="testimonial-text">"Fitur 24/7 sangat berguna karena saya sering merasa cemas di tengah malam. Tidak perlu menunggu keesokan hari untuk konsultasi."</p>
+                <div class="testimonial-author">
+                    <div class="author-avatar">BK</div>
+                    <div class="author-info">
+                        <h4>Budi Kusumo</h4>
+                        <p>Software Engineer</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <h2>Siap Menjaga Kesehatan Mental Anda?</h2>
+        <p>Bergabunglah dengan ribuan pengguna yang telah menemukan kedamaian dan dukungan melalui MindCare Chatbot. Konsultasi gratis dan rahasia.</p>
+        <div class="cta-options">
+            <a href="#" onclick="openModal()" class="cta-button">Mulai Chat Sekarang</a>
+            <a href="#how-it-works" class="cta-secondary">Pelajari Lebih Lanjut</a>
+        </div>
+    </section>
+
+    <!-- Chat Widget -->
+    <div class="chat-widget">
+        <div class="chat-btn" onclick="openModal()">
+            <i class="fas fa-comments"></i>
+            <div class="chat-counter">1</div>
+        </div>
+    </div>
+
+    <!-- Consultation Modal -->
+    <div id="consultationModal" class="modal">
+        <div class="modal-content">
+            <button class="close-btn" onclick="closeModal()">&times;</button>
+            <h2 style="margin-bottom: 20px; color: #333;">Mulai Konsultasi</h2>
+            <p style="margin-bottom: 30px; color: #666; font-size: 1.1em;">Chatbot kami siap mendengarkan dan memberikan dukungan. Apa yang sedang Anda rasakan?</p>
+            
+            <form id="consultationForm">
+                <div class="form-group">
+                    <label for="name">Nama Lengkap</label>
+                    <input type="text" id="name" required placeholder="Masukkan nama Anda">
+                </div>
+                
+                <div class="form-group">
+                    <label for="mood">Bagaimana perasaan Anda hari ini?</label>
+                    <select id="mood" style="width: 100%; padding: 12px 15px; border: 2px solid #e0e0e0; border-radius: 10px; font-size: 1em; font-family: inherit;">
+                        <option value="">Pilih perasaan...</option>
+                        <option value="baik">Baik-baik saja</option>
+                        <option value="sedih">Sedih atau Depresif</option>
+                        <option value="cemas">Cemas atau Khawatir</option>
+                        <option value="marah">Marah atau frustration</option>
+                        <option value="lelah">Lelah atau burnout</option>
+                        <option value="bingung">Bingung tentang masa depan</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="message">Apa yang ingin Anda bicarakan?</label>
+                    <textarea id="message" rows="4" placeholder="Tulis pesan Anda di sini..."></textarea>
+                </div>
+                
+                <button type="button" class="submit-btn" onclick="startConsultation()">
+                    <i class="fas fa-robot"></i> Mulai Konsultasi
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-column">
+                <h3>MindCare Chatbot</h3>
+                <p>Konsultasi kesehatan mental yang mudah diakses, rahasia, dan didukung oleh teknologi AI terkini.</p>
+                <div class="social-links">
+                    <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+            <div class="footer-column">
+                <h3>Link Cepat</h3>
+                <ul>
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#features">Fitur</a></li>
+                    <li><a href="#how-it-works">Cara Kerja</a></li>
+                    <li><a href="#testimonials">Ulasan</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Sumber Daya</h3>
+                <ul>
+                    <li><a href="#">Artikel Kesehatan Mental</a></li>
+                    <li><a href="#">Teknik Relaksasi</a></li>
+                    <li><a href="#">Glosarium Psikologi</a></li>
+                    <li><a href="#">FAQ</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Hubungi Kami</h3>
+                <p><i class="fas fa-envelope"></i> support@mindcare.ai</p>
+                <p><i class="fas fa-phone"></i> +62 21 1234 5678</p>
+                <p><i class="fas fa-map-marker-alt"></i> Jakarta, Indonesia</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 MindCare Chatbot. All rights reserved. | Dibuat dengan ❤️ untuk kesehatan mental bangsa</p>
+            <p style="font-size: 0.8em; margin-top: 10px; opacity: 0.7;">DISCLAIMER: Chatbot ini tidak menggantikan诊疗 profesional. Jika Anda mengalami krisis mental, segera hubungi tenaga medis.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Modal Functionality
+        function openModal() {
+            document.getElementById('consultationModal').style.display = 'flex';
+        }
+
+        function closeModal() {
+            document.getElementById('consultationModal').style.display = 'none';
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('consultationModal');
+            if (event.target == modal) {
+                modal.style.display = 'none';
+            }
+        }
+
+        // Start Consultation
+        function startConsultation() {
+            const name = document.getElementById('name').value;
+            const mood = document.getElementById('mood').value;
+            const message = document.getElementById('message').value;
+
+            if (name && mood) {
+                // Store user info in localStorage
+                localStorage.setItem('mindcare_user', JSON.stringify({
+                    name: name,
+                    mood: mood,
+                    message: message
+                }));
+
+                // Close modal
+                closeModal();
+
+                // Redirect to chat page
+                window.location.href = 'public/index.html';
+            } else {
+                alert('Mohon lengkapi nama dan pilih perasaan Anda!');
+            }
+        }
+
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Check if userInfo exists
+        window.addEventListener('load', function() {
+            const userInfo = localStorage.getItem('mindcare_user');
+            if (userInfo) {
+                const parsedInfo = JSON.parse(userInfo);
+                console.log('Welcome back, ' + parsedInfo.name + '!');
+            }
+        });
+    </script>
+</body>
+</html>
